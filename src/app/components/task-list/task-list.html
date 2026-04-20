@@ -1,1 +1,19 @@
-<p>task-list works!</p>
+<div>
+  <button (click)="taskService.setFilter('all')">All</button>
+  <button (click)="taskService.setFilter('active')">Active</button>
+  <button (click)="taskService.setFilter('completed')">Completed</button>
+</div>
+
+<ul>
+  @for (task of taskService.filteredTasks(); track task.id) {
+    <li>
+      <input type="checkbox"
+             [checked]="task.completed"
+             (change)="taskService.toggleTask(task.id)" />
+
+      {{ task.title }}
+
+      <button (click)="taskService.deleteTask(task.id)">Delete</button>
+    </li>
+  }
+</ul>

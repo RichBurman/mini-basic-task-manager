@@ -42,7 +42,7 @@ export class TaskService {
     this.tasks.update( tasks => tasks.filter(t => t.id !== id));
   }
 
-  setFilter(filter: 'all' | 'filter' | 'completed') {
+  setFilter(filter: 'all' | 'active' | 'completed') {
     this.filter.set(filter);
   }
   
