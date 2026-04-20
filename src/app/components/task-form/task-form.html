@@ -1,2 +1,9 @@
 <input [(ngModel)]="title" placeholder="Enter task" />
-<button (click)="addTask()">Add</button>
+
+<select [(ngModel)]="priority">
+  <option value="low">Low</option>
+  <option value="medium">Medium</option>
+  <option value="high">High</option>
+</select>
+
+<button (click)="addTask()">Add Task</button>

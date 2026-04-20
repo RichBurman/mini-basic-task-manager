@@ -11,13 +11,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class TaskForm {
     title = '';
+    priority: 'low' | 'medium' | 'high' = 'medium';
 
   constructor(private taskService: TaskService) {}
 
   addTask() {
     if (!this.title.trim()) return;
 
-    this.taskService.addTask(this.title);
+    this.taskService.addTask(this.title, this.priority);
     this.title = '';
+    this.priority = 'medium';
   }
 }

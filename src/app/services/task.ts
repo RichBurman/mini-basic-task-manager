@@ -6,24 +6,6 @@ import { Task } from '../models/task';
 })
 export class TaskService {
 
-  constructor() {
-    this.tasks.set([
-      {
-        id: 1,
-        title: 'Learn Angular signals',
-        completed: false,
-        priority: 'high',
-        createdAt: new Date()
-      },
-      {
-        id: 2,
-        title: 'Build task manager app',
-        completed: false,
-        priority: 'medium',
-        createdAt: new Date()
-      }
-    ]);
-  }
   tasks = signal<Task[]>([]);
 
   filter = signal<'all' | 'active' | 'completed'>('all');
@@ -37,12 +19,38 @@ export class TaskService {
     return tasks;
   });
 
-  addTask(title: string) {
+  constructor() {
+    this.tasks.set([
+      {
+        id: 1,
+        title: 'Learn Angular signals',
+        completed: false,
+        priority: 'high',
+        createdAt: new Date()
+      },
+      {
+        id: 2,
+        title: 'Build task manager',
+        completed: true,
+        priority: 'medium',
+        createdAt: new Date()
+      }
+    ]);
+  }
+
+  addTask(title: string, priority: 'low' | 'medium' | 'high') {
+    const currentTasks = this.tasks();
+
+    const nextId =
+      currentTasks.length > 0
+        ? Math.max(...currentTasks.map(t => t.id)) + 1
+        : 1;
+        
     const newTask: Task = {
-      id: Date.now(),
+      id: nextId,
       title,
       completed: false,
-      priority: 'medium',
+      priority,
       createdAt: new Date()
     };
 
@@ -64,5 +72,4 @@ export class TaskService {
   setFilter(filter: 'all' | 'active' | 'completed') {
     this.filter.set(filter);
   }
-
 }
