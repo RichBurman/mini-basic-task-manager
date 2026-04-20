@@ -21,28 +21,52 @@
     <tbody>
         @for (task of taskService.filteredTasks(); track task.id) {
         <tr>
+
             <td>{{ task.id }}</td>
 
-            <td>{{ task.title }}</td>
 
             <td>
+                @if (editingTaskId() === task.id) {
+                <input [ngModel]="editTitle()" (ngModelChange)="editTitle.set($event)" />
+                } @else {
+                {{ task.title }}
+                }
+            </td>
+
+
+            <td>
+                @if (editingTaskId() === task.id) {
+                <select [ngModel]="editPriority()" (ngModelChange)="editPriority.set($event)">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                } @else {
                 <span [class]="task.priority">
                     {{ task.priority }}
                 </span>
+                }
             </td>
+
 
             <td>
                 <input type="checkbox" [checked]="task.completed" (change)="taskService.toggleTask(task.id)" />
             </td>
 
+            <!-- CREATED -->
             <td>{{ task.createdAt | date:'short' }}</td>
 
+            <!-- ACTIONS -->
             <td>
-                <button (click)="taskService.deleteTask(task.id)">
-                    Delete
-                </button>
+                @if (editingTaskId() === task.id) {
+                <button (click)="saveEdit(task.id)">Save</button>
+                <button (click)="cancelEdit()">Cancel</button>
+                } @else {
+                <button (click)="startEdit(task)">Edit</button>
+                <button (click)="taskService.deleteTask(task.id)">Delete</button>
+                }
             </td>
+
         </tr>
         }
     </tbody>
-</table>

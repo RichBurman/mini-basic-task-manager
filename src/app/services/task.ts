@@ -45,7 +45,7 @@ export class TaskService {
       currentTasks.length > 0
         ? Math.max(...currentTasks.map(t => t.id)) + 1
         : 1;
-        
+
     const newTask: Task = {
       id: nextId,
       title,
@@ -71,5 +71,19 @@ export class TaskService {
 
   setFilter(filter: 'all' | 'active' | 'completed') {
     this.filter.set(filter);
+  }
+
+  updateTask(
+    id: number,
+    title: string,
+    priority: 'low' | 'medium' | 'high'
+  ) {
+    this.tasks.update(tasks =>
+      tasks.map(t =>
+        t.id === id
+          ? { ...t, title, priority }
+          : t
+      )
+    );
   }
 }
