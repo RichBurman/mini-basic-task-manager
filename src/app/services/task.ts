@@ -5,6 +5,25 @@ import { Task } from '../models/task';
   providedIn: 'root',
 })
 export class TaskService {
+
+  constructor() {
+    this.tasks.set([
+      {
+        id: 1,
+        title: 'Learn Angular signals',
+        completed: false,
+        priority: 'high',
+        createdAt: new Date()
+      },
+      {
+        id: 2,
+        title: 'Build task manager app',
+        completed: false,
+        priority: 'medium',
+        createdAt: new Date()
+      }
+    ]);
+  }
   tasks = signal<Task[]>([]);
 
   filter = signal<'all' | 'active' | 'completed'>('all');
@@ -18,7 +37,7 @@ export class TaskService {
     return tasks;
   });
 
-  addTask(title:string) {
+  addTask(title: string) {
     const newTask: Task = {
       id: Date.now(),
       title,
@@ -31,7 +50,7 @@ export class TaskService {
   }
 
   toggleTask(id: number) {
-    this.tasks.update( tasks =>
+    this.tasks.update(tasks =>
       tasks.map(t =>
         t.id === id ? { ...t, completed: !t.completed } : t
       )
@@ -39,11 +58,11 @@ export class TaskService {
   }
 
   deleteTask(id: number) {
-    this.tasks.update( tasks => tasks.filter(t => t.id !== id));
+    this.tasks.update(tasks => tasks.filter(t => t.id !== id));
   }
 
   setFilter(filter: 'all' | 'active' | 'completed') {
     this.filter.set(filter);
   }
-  
+
 }
